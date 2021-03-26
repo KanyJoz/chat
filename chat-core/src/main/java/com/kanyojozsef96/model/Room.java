@@ -37,9 +37,22 @@ public class Room {
         }
     }
 
+    private IntegerProperty id = new SimpleIntegerProperty(this, "id");
     private StringProperty name = new SimpleStringProperty(this, "name");
     private ListProperty<String> rules = new SimpleListProperty<>(this, "rules");
     private ObjectProperty<RoomType> roomType = new SimpleObjectProperty<>(this, "roomType");
+
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+    }
 
     public String getName() {
         return name.get();
