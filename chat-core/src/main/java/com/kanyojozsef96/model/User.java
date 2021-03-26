@@ -7,6 +7,7 @@ public class User {
     private IntegerProperty id = new SimpleIntegerProperty(this, "id");
     private StringProperty username = new SimpleStringProperty(this, "username");
     private StringProperty password = new SimpleStringProperty(this, "password");
+    private StringProperty email = new SimpleStringProperty(this, "email");
     private IntegerProperty age = new SimpleIntegerProperty(this, "age");
     private StringProperty sex = new SimpleStringProperty(this, "sex");
     private ListProperty<String> hobbies = new SimpleListProperty<>(this, "hobbies");
@@ -45,6 +46,18 @@ public class User {
 
     public void setPassword(String password) {
         this.password.set(password);
+    }
+
+    public String getEmail() {
+        return email.get();
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email.set(email);
     }
 
     public int getAge() {
