@@ -1,0 +1,16 @@
+.btn {
+    -fx-padding: 100px;
+    -fx-font-size: 30px;
+}
+
+#container {
+    -fx-spacing: 30px;
+}
+
+#intro-text {
+    -fx-font-size: 30px;
+}
+
+#sub-container {
+    -fx-spacing: 30px;
+}
