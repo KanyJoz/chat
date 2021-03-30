@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane styleClass="container" prefWidth="600.0" prefHeight="400.0" fx:controller="com.kanyojozsef96.controller.UsersWindowController" stylesheets="@../css/usersWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane styleClass="container" prefWidth="600.0" prefHeight="600.0" fx:controller="com.kanyojozsef96.controller.UsersWindowController" stylesheets="@../css/usersWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <MenuBar styleClass="menu" BorderPane.alignment="CENTER">
             <menus>
@@ -22,12 +22,12 @@
         </MenuBar>
     </top>
     <center>
-        <TableView styleClass="table" BorderPane.alignment="CENTER">
+        <TableView fx:id="userTable" styleClass="table" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn styleClass="table__row--1" text="id" />
-                <TableColumn styleClass="table__row--2" text="username" />
-                <TableColumn styleClass="table__row--3" text="email" />
-                <TableColumn styleClass="table__row--4" text="Actions" />
+                <TableColumn fx:id="idColumn" styleClass="table__row--1" text="id" />
+                <TableColumn fx:id="nameColumn" styleClass="table__row--2" text="username" />
+                <TableColumn fx:id="emailColumn" styleClass="table__row--3" text="email" />
+                <TableColumn fx:id="actionsColumn" styleClass="table__row--4" text="Actions" />
             </columns>
         </TableView>
     </center>

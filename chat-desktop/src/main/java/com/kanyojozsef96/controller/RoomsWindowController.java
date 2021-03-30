@@ -9,7 +9,7 @@ public class RoomsWindowController {
 
     @FXML
     public void onBackMenuItemClicked(ActionEvent actionEvent) {
-        App.loadFXML("/fxml/window_main.fxml", null);
+        App.loadFXML("/fxml/window_main.fxml", null, "Admin Application");
     }
 
     @FXML

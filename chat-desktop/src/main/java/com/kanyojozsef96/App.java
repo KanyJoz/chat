@@ -19,11 +19,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         App.mainStage = stage;
-        loadFXML("/fxml/window_main.fxml", null);
+        loadFXML("/fxml/window_main.fxml", null, "Admin Application");
         stage.show();
     }
 
-    public static FXMLLoader loadFXML(String fxmlURL, Stage optionalWindow) {
+    public static FXMLLoader loadFXML(String fxmlURL, Stage optionalWindow, String title) {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlURL));
         Scene scene = null;
 
@@ -37,8 +37,10 @@ public class App extends Application {
 
         if(Objects.nonNull(optionalWindow)) {
             optionalWindow.setScene(scene);
+            optionalWindow.setTitle(title);
         } else {
             App.mainStage.setScene(scene);
+            App.mainStage.setTitle(title);
         }
 
         return loader;

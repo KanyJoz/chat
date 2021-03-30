@@ -8,11 +8,11 @@ public class MainWindowController {
 
     @FXML
     public void onListUsersBtnClicked(ActionEvent actionEvent) {
-        App.loadFXML("/fxml/window_users.fxml", null);
+        App.loadFXML("/fxml/window_users.fxml", null, "User Viewer");
     }
 
     @FXML
     public void onListRoomsBtnClicked(ActionEvent actionEvent) {
-        App.loadFXML("/fxml/window_rooms.fxml", null);
+        App.loadFXML("/fxml/window_rooms.fxml", null, "Room Viewer");
     }
 }
