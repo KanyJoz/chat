@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@../css/mainWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane styleClass="root" stylesheets="@../css/mainWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox id="container" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="CENTER">
+      <VBox styleClass="container">
          <children>
-            <Label id="intro-text" text="Chat App Admin Platform" />
-            <HBox id="sub-container" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <Label styleClass="intro-text" text="Chat App Admin Platform" />
+            <HBox styleClass="sub-container">
                <children>
                   <Button mnemonicParsing="false" styleClass="btn" text="List Users" />
                   <Button mnemonicParsing="false" styleClass="btn" text="List Rooms" />

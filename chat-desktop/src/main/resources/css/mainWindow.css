@@ -1,16 +1,27 @@
+.root {
+    -fx-pref-width: 1000px;
+    -fx-pref-height: 800px;
+}
+
+.container {
+    -fx-spacing: 30px;
+    -fx-pref-height: 200px;
+    -fx-pref-width: 100px;
+    -fx-alignment: CENTER;
+}
+
+.intro-text {
+    -fx-font-size: 30px;
+}
+
+.sub-container {
+    -fx-spacing: 30px;
+    -fx-pref-height: 100px;
+    -fx-pref-width: 200px;
+    -fx-alignment: CENTER;
+}
+
 .btn {
     -fx-padding: 100px;
     -fx-font-size: 30px;
-}
-
-#container {
-    -fx-spacing: 30px;
-}
-
-#intro-text {
-    -fx-font-size: 30px;
-}
-
-#sub-container {
-    -fx-spacing: 30px;
 }
