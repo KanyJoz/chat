@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane styleClass="container" fx:controller="com.kanyojozsef96.controller.RoomUsersWindowController" stylesheets="@../css/roomusersWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar styleClass="menu" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TableView styleClass="table" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn styleClass="table__row--1" text="username" />
+                <TableColumn styleClass="table__row--2" text="email" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
