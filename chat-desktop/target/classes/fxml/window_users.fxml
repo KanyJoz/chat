@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane styleClass="container" prefWidth="600.0" prefHeight="600.0" fx:controller="com.kanyojozsef96.controller.UsersWindowController" stylesheets="@../css/usersWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane styleClass="container" prefWidth="600.0" prefHeight="400.0" fx:controller="com.kanyojozsef96.controller.UsersWindowController" stylesheets="@../css/usersWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <MenuBar styleClass="menu" BorderPane.alignment="CENTER">
             <menus>

@@ -1,1 +1,6 @@
 com\kanyojozsef96\App.class
+com\kanyojozsef96\controller\RoomUsersWindowController.class
+com\kanyojozsef96\controller\RulesWindowController.class
+com\kanyojozsef96\controller\RoomsWindowController.class
+com\kanyojozsef96\controller\HobbiesWindowController.class
+com\kanyojozsef96\controller\UsersWindowController.class

@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane styleClass="root" stylesheets="@../css/mainWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:controller="com.kanyojozsef96.controller.MainWindowController" styleClass="root" stylesheets="@../css/mainWindow.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox styleClass="container">
          <children>
             <Label styleClass="intro-text" text="Chat App Admin Platform" />
             <HBox styleClass="sub-container">
                <children>
-                  <Button mnemonicParsing="false" styleClass="btn" text="List Users" />
-                  <Button mnemonicParsing="false" styleClass="btn" text="List Rooms" />
+                  <Button onAction="#onListUsersBtnClicked" mnemonicParsing="false" styleClass="btn" text="List Users" />
+                  <Button onAction="#onListRoomsBtnClicked" mnemonicParsing="false" styleClass="btn" text="List Rooms" />
                </children>
             </HBox>
          </children>

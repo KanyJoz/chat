@@ -1,14 +1,7 @@
-.container {
-    -fx-pref-width: 400px;
-    -fx-pref-height: 600px;
-}
-
-.menu {}
-
-.table {
+.table__row--1 {
     -fx-pref-width: 200px;
-    -fx-pref-height: 200px;
 }
 
-.table__row--1 { -fx-pref-width: 200px; }
-.table__row--2 { -fx-pref-width: 200px; }
+.table__row--2 {
+    -fx-pref-width: 400px;
+}
