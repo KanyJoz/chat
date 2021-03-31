@@ -7,6 +7,8 @@ import com.kanyojozsef96.model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_ROOMS = "SELECT * FROM rooms";
@@ -14,6 +16,7 @@ public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_USERS_FOR_ROOM = "SELECT username, email FROM users, rooms_users" +
             " WHERE users.id = rooms_users.userId" +
             " And rooms_users.roomId = ?";
+    private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
     private String connectionURL;
@@ -98,7 +101,41 @@ public class RoomDAOImpl implements RoomDAO {
         return result;
     }
 
+
+    @Override
+    public List<Room> findRoomsByName(String roomString) {
+        List<Room> result = new ArrayList<>();
+
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(SELECT_ROOM_BY_NAME)) {
+
+            stmt.setString(1, "%" + roomString + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                Room room = new Room();
+                room.setName(rs.getString("name"));
+                result.add(room);
+                // TODO: if more data is needed for the web then fill it
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't find the users somehow in the database!");
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public List<Room> findRoomsByType(String roomLikeString) {
+        List<Room> result = findAllRooms();
+        return result.stream().filter(room -> room.getRoomType().getValue().toLowerCase().contains(roomLikeString.toLowerCase())).collect(Collectors.toList());
+    }
+
     public static void main(String[] args) {
-        System.out.println(instance.findAllRooms());
+        System.out.println(instance.findRoomsByType("lov"));
     }
 }

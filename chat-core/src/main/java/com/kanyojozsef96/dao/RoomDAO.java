@@ -9,4 +9,6 @@ public interface RoomDAO {
     List<Room> findAllRooms();
     void deleteRoom(Room room);
     List<User> findAllUsersForRoom(Room room);
+    List<Room> findRoomsByName(String roomString);
+    List<Room> findRoomsByType(String roomType);
 }

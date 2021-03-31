@@ -57,6 +57,6 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room Name --> " + this.getName() + " -- " + this.getRoomType().toString();
+        return "Room Name --> " + this.getName();
     }
 }
