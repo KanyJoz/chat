@@ -57,16 +57,16 @@ public class RoomsWindowController implements Initializable {
                      refreshTable();
                 });
 
-                usersBtn.setOnAction(event -> {
-                    //User curr = getTableRow().getItem();
-                    //Stage stage = new Stage();
-                    //FXMLLoader loader = App.loadFXML("/fxml/window_hobbies.fxml", stage, "Hobbies of " + curr.getUsername());
-                    //HobbiesWindowController controller = loader.getController();
-                    //controller.fillInHobbies(curr);
-                    //stage.show();
+                rulesBtn.setOnAction(event -> {
+                    Room curr = getTableRow().getItem();
+                    Stage stage = new Stage();
+                    FXMLLoader loader = App.loadFXML("/fxml/window_rules.fxml", stage, "Rules of " + curr.getName());
+                    RulesWindowController controller = loader.getController();
+                    controller.fillInRules(curr);
+                    stage.show();
                 });
 
-                rulesBtn.setOnAction(event -> {
+                usersBtn.setOnAction(event -> {
                     // User current = getTableRow().getItem();
                     // userDAO.deleteUser(current);
                     // refreshTable();
