@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserDAO {
     List<User> findAllUsers();
     void deleteUser(User curr);
+    List<User> findUsersByName(String name);
+    List<User> findUserByHobbies(String hobby);
 }

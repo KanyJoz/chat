@@ -10,6 +10,23 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_USERS_BY_NAME = "SELECT * FROM users WHERE username LIKE ?";
+    private static final String SELECT_USERS_BY_HOBBY = "SELECT users.username, users.email FROM users, hobbies, users_hobbies" +
+            " WHERE users.id = users_hobbies.userId" +
+            " AND hobbies.id = users_hobbies.hobbyId" +
+            " AND hobbies.id IN" +
+            " (SELECT id FROM hobbies" +
+            " WHERE name LIKE ?)";
+
+
+    /*
+     SELECT users.username, users.email FROM users, hobbies, users_hobbies
+     WHERE users.id = users_hobbies.userId
+       AND hobbies.id = users_hobbies.hobbyId
+       AND hobbies.id IN
+     (SELECT id FROM hobbies
+       WHERE name LIKE '%?%')
+    * */
 
     private static final UserDAOImpl instance = new UserDAOImpl();
     private final String connectionUrl;
@@ -65,4 +82,63 @@ public class UserDAOImpl implements UserDAO {
             throwables.printStackTrace();
         }
     }
+
+
+    @Override
+    public List<User> findUsersByName(String likeString) {
+        List<User> result = new ArrayList<>();
+
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(SELECT_USERS_BY_NAME)) {
+
+            stmt.setString(1, "%" + likeString + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                User user = new User();
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                result.add(user);
+                // TODO: if more data is needed for the web then fill it
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't find the users somehow in the database!");
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public List<User> findUserByHobbies(String hobbyString) {
+        List<User> result = new ArrayList<>();
+
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(SELECT_USERS_BY_HOBBY)) {
+
+            stmt.setString(1, "%" + hobbyString + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                User user = new User();
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                result.add(user);
+                // TODO: if more data is needed for the web then fill it
+                // TODO: ALSO this only queries user name and email
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't find the users somehow in the database!");
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return result;
+    }
 }
+
+
