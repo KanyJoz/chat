@@ -1,12 +1,14 @@
 package com.kanyojozsef96.controller;
 
 import com.kanyojozsef96.App;
+import com.kanyojozsef96.dao.HobbiesDAOImpl;
 import com.kanyojozsef96.dao.UserDAOImpl;
 import com.kanyojozsef96.model.User;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -14,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,9 +56,12 @@ public class UsersWindowController implements Initializable {
                 });
 
                 hobbiesBtn.setOnAction(event -> {
-                    //Contact c = getTableRow().getItem();
-                    //editContact(c);
-                    // refreshTable();
+                    User curr = getTableRow().getItem();
+                    Stage stage = new Stage();
+                    FXMLLoader loader = App.loadFXML("/fxml/window_hobbies.fxml", stage, "Hobbies of " + curr.getUsername());
+                    HobbiesWindowController controller = loader.getController();
+                    controller.fillInHobbies(curr);
+                    stage.show();
                 });
             }
 
@@ -79,7 +85,7 @@ public class UsersWindowController implements Initializable {
     }
 
     private void refreshTable() {
-        Task<Void> task = new Task<>() {
+        Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 userTable.getItems().setAll(userDAO.findAllUsers());

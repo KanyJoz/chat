@@ -10,7 +10,7 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
 
-    private static UserDAOImpl instance = new UserDAOImpl();
+    private static final UserDAOImpl instance = new UserDAOImpl();
     private final String connectionUrl;
 
     private UserDAOImpl() {

@@ -14,16 +14,16 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem onAction="#onCloseMenuItemClicked" mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
     <center>
-        <TableView styleClass="table" BorderPane.alignment="CENTER">
+        <TableView fx:id="hobbiesTable" styleClass="table" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn styleClass="table__row--1" text="name" />
+                <TableColumn fx:id="nameColumn" styleClass="table__row--1" text="name" />
             </columns>
         </TableView>
     </center>

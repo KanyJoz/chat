@@ -3,4 +3,6 @@ com\kanyojozsef96\dao\UserDAO.class
 com\kanyojozsef96\model\Room$RoomType.class
 com\kanyojozsef96\model\Room.class
 com\kanyojozsef96\config\PropertiesUtil.class
+com\kanyojozsef96\dao\HobbiesDAO.class
 com\kanyojozsef96\dao\UserDAOImpl.class
+com\kanyojozsef96\dao\HobbiesDAOImpl.class
