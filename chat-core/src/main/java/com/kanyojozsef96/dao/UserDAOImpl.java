@@ -9,6 +9,7 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
+    private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
 
     private static final UserDAOImpl instance = new UserDAOImpl();
     private final String connectionUrl;
@@ -44,5 +45,24 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return allUsers;
+    }
+
+
+    @Override
+    public void deleteUser(User curr) {
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(DELETE_USER)) {
+
+            stmt.setInt(1, curr.getId());
+            int affectedRows = stmt.executeUpdate();
+
+            if(affectedRows != 1){
+                System.out.println("There are some problems with the user id-s!");
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't delete the user from the database");
+            throwables.printStackTrace();
+        }
     }
 }

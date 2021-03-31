@@ -50,9 +50,9 @@ public class UsersWindowController implements Initializable {
 
             {
                 deleteBtn.setOnAction(event -> {
-                    // Contact c = getTableRow().getItem();
-                    // deleteContact(c);
-                    // refreshTable();
+                    User current = getTableRow().getItem();
+                    userDAO.deleteUser(current);
+                    refreshTable();
                 });
 
                 hobbiesBtn.setOnAction(event -> {
