@@ -11,6 +11,9 @@ import java.util.List;
 public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_ROOMS = "SELECT * FROM rooms";
     private static final String DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
+    private static final String SELECT_ALL_USERS_FOR_ROOM = "SELECT username, email FROM users, rooms_users" +
+            " WHERE users.id = rooms_users.userId" +
+            " And rooms_users.roomId = ?";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
     private String connectionURL;
@@ -64,6 +67,35 @@ public class RoomDAOImpl implements RoomDAO {
             System.out.println("Couldn't delete the user from the database");
             throwables.printStackTrace();
         }
+    }
+
+
+    @Override
+    public List<User> findAllUsersForRoom(Room room) {
+        List<User> result = new ArrayList<>();
+
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(SELECT_ALL_USERS_FOR_ROOM)) {
+
+            stmt.setInt(1, room.getId());
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                User user = new User();
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+                result.add(user);
+                // TODO: if more data is needed for the web then fill it
+                // TODO: Only username, email are querried
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't find the users somehow in the database!");
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {

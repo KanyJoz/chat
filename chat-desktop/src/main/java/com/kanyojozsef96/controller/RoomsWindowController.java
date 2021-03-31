@@ -67,9 +67,12 @@ public class RoomsWindowController implements Initializable {
                 });
 
                 usersBtn.setOnAction(event -> {
-                    // User current = getTableRow().getItem();
-                    // userDAO.deleteUser(current);
-                    // refreshTable();
+                    Room curr = getTableRow().getItem();
+                    Stage stage = new Stage();
+                    FXMLLoader loader = App.loadFXML("/fxml/window_roomusers.fxml", stage, "Users of " + curr.getName());
+                    RoomUsersWindowController controller = loader.getController();
+                    controller.fillInUsers(curr);
+                    stage.show();
                 });
             }
 

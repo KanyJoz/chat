@@ -14,17 +14,17 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem onAction="#onCloseMenuItemClicked" mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
     </top>
     <center>
-        <TableView styleClass="table" BorderPane.alignment="CENTER">
+        <TableView fx:id="userTable" styleClass="table" BorderPane.alignment="CENTER">
             <columns>
-                <TableColumn styleClass="table__row--1" text="username" />
-                <TableColumn styleClass="table__row--2" text="email" />
+                <TableColumn fx:id="nameColumn" styleClass="table__row--1" text="username" />
+                <TableColumn fx:id="emailColumn" styleClass="table__row--2" text="email" />
             </columns>
         </TableView>
     </center>
