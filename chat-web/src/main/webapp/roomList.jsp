@@ -23,6 +23,8 @@
     <c:forEach var="item" items="${sessionScope.rooms}">
         <tr>
             <td>${item.name}</td>
+            <td><a href="roomname-servlet?roomId=${item.id}">People of Room</a></td>
+            <td><a href="roomtype-servlet?roomId=${item.id}">Join</a></td>
         </tr>
     </c:forEach>
     </tbody>

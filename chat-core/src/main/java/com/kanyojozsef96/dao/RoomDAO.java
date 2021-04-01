@@ -12,4 +12,5 @@ public interface RoomDAO {
     List<Room> findRoomsByName(String roomString);
     List<Room> findRoomsByType(String roomType);
     boolean addRoom(Room roomToAdd);
+    boolean populateRoom(int rId, int uId);
 }

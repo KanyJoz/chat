@@ -16,7 +16,7 @@ public class UsernameServlet extends HttpServlet {
     private final UserDAOImpl userDao = UserDAOImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = "/error.jsp";
         if(req.getSession().getAttribute("user") != null) {
 

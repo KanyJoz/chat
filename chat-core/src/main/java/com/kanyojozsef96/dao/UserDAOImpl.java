@@ -166,6 +166,7 @@ public class UserDAOImpl implements UserDAO {
 
             if(keys.next()){
                 key = keys.getInt(1);
+                newUser.setId(key);
             } else {
                 System.out.println("Shouldn't reach this");
                 return false;

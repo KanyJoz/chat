@@ -17,6 +17,7 @@ public class RoomDAOImpl implements RoomDAO {
             " And rooms_users.roomId = ?";
     private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
     private static final String ADD_ROOM = "INSERT INTO rooms(name, roomType) VALUES (?, ?)";
+    private static final String POPULATE_ROOM = "INSERT INTO rooms_users(roomId, userId) VALUES (?, ?)";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
     private String connectionURL;
@@ -120,6 +121,7 @@ public class RoomDAOImpl implements RoomDAO {
 
             while(rs.next()) {
                 Room room = new Room();
+                room.setId(rs.getInt("id"));
                 room.setName(rs.getString("name"));
                 result.add(room);
                 // TODO: if more data is needed for the web then fill it
@@ -174,6 +176,30 @@ public class RoomDAOImpl implements RoomDAO {
                     rulesDAO.connectRoomRules(key, ruleKey);
                 }
             });
+
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+
+    @Override
+    public boolean populateRoom(int rId, int uId) {
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(POPULATE_ROOM)) {
+
+            stmt.setInt(1, rId);
+            stmt.setInt(2, uId);
+
+
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows == 0) {
+                System.out.println("Something went wrong with the insert");
+                return false;
+            }
 
             return true;
 

@@ -10,7 +10,7 @@
 <body>
 
     <div class="container-md">
-        <form action="username-servlet" method="get">
+        <form action="username-servlet" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Search User by username</label>
                 <input type="text" class="form-control" id="username" name="username" required>
@@ -18,7 +18,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <form action="hobby-servlet" method="get">
+        <form action="hobby-servlet" method="post">
             <div class="mb-3">
                 <label for="hobby" class="form-label">Search User by hobby</label>
                 <input type="text" class="form-control" id="hobby" name="hobby" required>
@@ -26,7 +26,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <form action="roomname-servlet" method="get">
+        <form action="roomname-servlet" method="post">
             <div class="mb-3">
                 <label for="roomname" class="form-label">Search room by name</label>
                 <input type="text" class="form-control" id="roomname" name="roomname" required>
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <form action="roomtype-servlet" method="get">
+        <form action="roomtype-servlet" method="post">
             <div class="mb-3">
                 <label for="roomtype" class="form-label">Search room by type</label>
                 <select class="form-select" name="roomtype" id="roomtype">

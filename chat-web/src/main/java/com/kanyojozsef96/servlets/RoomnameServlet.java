@@ -17,7 +17,7 @@ public class RoomnameServlet extends HttpServlet {
     private final RoomDAOImpl roomDAO = RoomDAOImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = "/error.jsp";
         if(req.getSession().getAttribute("user") != null) {
 
@@ -25,6 +25,22 @@ public class RoomnameServlet extends HttpServlet {
             List<Room> rooms = roomDAO.findRoomsByName(roomname);
             req.getSession().setAttribute("rooms", rooms);
             url = "/roomList.jsp";
+        }
+
+        resp.sendRedirect(req.getContextPath() + url);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String url = "/error.jsp";
+        if(req.getSession().getAttribute("user") != null) {
+
+            int roomId = Integer.parseInt(req.getParameter("roomId"));
+            Room r = new Room();
+            r.setId(roomId);
+            List<User> users = roomDAO.findAllUsersForRoom(r);
+            req.getSession().setAttribute("users", users);
+            url = "/userList.jsp";
         }
 
         resp.sendRedirect(req.getContextPath() + url);
