@@ -1,7 +1,6 @@
 package com.kanyojozsef96.controller;
 
 import com.kanyojozsef96.App;
-import com.kanyojozsef96.dao.HobbiesDAOImpl;
 import com.kanyojozsef96.dao.UserDAOImpl;
 import com.kanyojozsef96.model.User;
 import javafx.application.Platform;

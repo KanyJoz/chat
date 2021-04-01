@@ -3,6 +3,7 @@ package com.kanyojozsef96.controller;
 import com.kanyojozsef96.dao.RoomDAOImpl;
 import com.kanyojozsef96.model.Room;
 import com.kanyojozsef96.model.User;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -24,7 +25,16 @@ public class RoomUsersWindowController {
     public void fillInUsers(Room current) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        userTable.getItems().setAll(roomDao.findAllUsersForRoom(current));
+
+        Task<Void> userThread = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                userTable.getItems().setAll(roomDao.findAllUsersForRoom(current));
+                return null;
+            }
+        };
+
+        new Thread(userThread).start();
     }
 
     @FXML
