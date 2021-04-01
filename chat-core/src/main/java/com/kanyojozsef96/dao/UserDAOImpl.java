@@ -20,16 +20,8 @@ public class UserDAOImpl implements UserDAO {
             " WHERE name LIKE ?)";
     private static final String ADD_USER = "INSERT INTO users(username, password, email, age, sex)" +
             " VALUES (?, ?, ?, ?, ?)";
+    private static final String FIND_USER = "SELECT * FROM users WHERE username = ? AND password = ?";
 
-
-    /*
-     SELECT users.username, users.email FROM users, hobbies, users_hobbies
-     WHERE users.id = users_hobbies.userId
-       AND hobbies.id = users_hobbies.hobbyId
-       AND hobbies.id IN
-     (SELECT id FROM hobbies
-       WHERE name LIKE '%?%')
-    * */
 
     private static final UserDAOImpl instance = new UserDAOImpl();
     private final String connectionUrl;
@@ -194,16 +186,38 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public static void main(String[] args) {
-        User tmp1 = new User();
-        tmp1.setUsername("kanfffffyJoz");
-        tmp1.setEmail("ffffff");
-        tmp1.setPassword("pwd");
-        tmp1.setAge(44);
-        tmp1.setSex("male");
-        tmp1.setHobbies(FXCollections.observableArrayList("bicaj", "futas"));
 
-        instance.addUser(tmp1);
+    @Override
+    public User findUserByNameAndPwd(String n, String pwd) {
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(FIND_USER)) {
+
+            stmt.setString(1, n);
+            stmt.setString(2, pwd);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                User user1 = new User();
+                user1.setId(rs.getInt("id"));
+                user1.setUsername(rs.getString("username"));
+                user1.setPassword(rs.getString("password"));
+                user1.setEmail(rs.getString("email"));
+                user1.setAge(rs.getInt("age"));
+                user1.setSex(rs.getString("sex"));
+                return user1;
+            } else {
+                System.out.println("Someting went wrong finding the user");
+                return null;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+
     }
 }
 

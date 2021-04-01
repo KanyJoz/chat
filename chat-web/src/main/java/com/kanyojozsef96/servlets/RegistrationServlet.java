@@ -42,6 +42,7 @@ public class RegistrationServlet extends HttpServlet {
 
             if(userDAO.addUser(user)) {
                 url = "/index.jsp";
+                req.getSession().setAttribute("user", user);
             } else {
                 url = "/error.jsp";
             }
