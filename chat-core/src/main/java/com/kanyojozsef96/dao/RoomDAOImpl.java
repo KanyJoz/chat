@@ -8,7 +8,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_ROOMS = "SELECT * FROM rooms";
@@ -17,9 +16,11 @@ public class RoomDAOImpl implements RoomDAO {
             " WHERE users.id = rooms_users.userId" +
             " And rooms_users.roomId = ?";
     private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
+    private static final String ADD_ROOM = "INSERT INTO rooms(name, roomType) VALUES (?, ?)";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
     private String connectionURL;
+    private final RulesDAOImpl rulesDAO = RulesDAOImpl.getInstance();
 
     private RoomDAOImpl() {
         this.connectionURL = PropertiesUtil.getUtilPropValue("db.url");
@@ -138,6 +139,48 @@ public class RoomDAOImpl implements RoomDAO {
     public List<Room> findRoomsByType(String roomLikeString) {
         List<Room> result = findAllRooms();
         return result.stream().filter(room -> room.getRoomType().getValue().toLowerCase().contains(roomLikeString.toLowerCase())).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public boolean addRoom(Room roomToAdd) {
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(ADD_ROOM, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, roomToAdd.getName());
+            stmt.setInt(2, roomToAdd.getRoomType().ordinal());
+
+
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows == 0) {
+                System.out.println("Something went wrong with the insert");
+                return false;
+            }
+
+
+            ResultSet keys = stmt.getGeneratedKeys();
+            int key;
+
+            if(keys.next()){
+                key = keys.getInt(1);
+            } else {
+                System.out.println("Shouldn't reach this");
+                return false;
+            }
+
+            roomToAdd.getRules().forEach(rule -> {
+                int ruleKey = rulesDAO.addRule(rule);
+                if(ruleKey != -1) {
+                    rulesDAO.connectRoomRules(key, ruleKey);
+                }
+            });
+
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {

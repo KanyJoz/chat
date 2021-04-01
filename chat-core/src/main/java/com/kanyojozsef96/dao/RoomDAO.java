@@ -11,4 +11,5 @@ public interface RoomDAO {
     List<User> findAllUsersForRoom(Room room);
     List<Room> findRoomsByName(String roomString);
     List<Room> findRoomsByType(String roomType);
+    boolean addRoom(Room roomToAdd);
 }

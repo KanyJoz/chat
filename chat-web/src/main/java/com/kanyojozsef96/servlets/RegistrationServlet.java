@@ -41,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
 
 
             if(userDAO.addUser(user)) {
-                url = "/login.jsp";
+                url = "/index.jsp";
             } else {
                 url = "/error.jsp";
             }
