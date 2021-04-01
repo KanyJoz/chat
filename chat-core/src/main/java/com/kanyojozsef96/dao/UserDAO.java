@@ -9,4 +9,5 @@ public interface UserDAO {
     void deleteUser(User curr);
     List<User> findUsersByName(String name);
     List<User> findUserByHobbies(String hobby);
+    boolean addUser(User newUser);
 }

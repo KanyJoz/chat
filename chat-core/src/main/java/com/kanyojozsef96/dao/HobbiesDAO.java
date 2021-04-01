@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface HobbiesDAO {
     List<String> findAllHobbiesForUser(User user);
+    int addHobby(String hobbyString);
+    void connectUserHobbies(int userId, int hobbyId);
 }

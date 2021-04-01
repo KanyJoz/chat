@@ -2,6 +2,7 @@ package com.kanyojozsef96.dao;
 
 import com.kanyojozsef96.config.PropertiesUtil;
 import com.kanyojozsef96.model.User;
+import javafx.collections.FXCollections;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class UserDAOImpl implements UserDAO {
             " AND hobbies.id IN" +
             " (SELECT id FROM hobbies" +
             " WHERE name LIKE ?)";
+    private static final String ADD_USER = "INSERT INTO users(username, password, email, age, sex)" +
+            " VALUES (?, ?, ?, ?, ?)";
 
 
     /*
@@ -30,6 +33,7 @@ public class UserDAOImpl implements UserDAO {
 
     private static final UserDAOImpl instance = new UserDAOImpl();
     private final String connectionUrl;
+    private final HobbiesDAOImpl hobbiesDAO = HobbiesDAOImpl.getInstance();
 
     private UserDAOImpl() {
         this.connectionUrl = PropertiesUtil.getUtilPropValue("db.url");
@@ -138,6 +142,60 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return result;
+    }
+
+
+    @Override
+    public boolean addUser(User newUser) {
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, newUser.getUsername());
+            stmt.setString(2, newUser.getPassword());
+            stmt.setString(3, newUser.getEmail());
+            stmt.setInt(4, newUser.getAge());
+            stmt.setString(5, newUser.getSex());
+
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows == 0) {
+                System.out.println("Something went wrong with the insert");
+                return false;
+            }
+
+            ResultSet keys = stmt.getGeneratedKeys();
+            int key;
+            if(keys.next()){
+                key = keys.getInt(1);
+            } else {
+                System.out.println("Shouldn't reach this");
+                return false;
+            }
+
+            newUser.getHobbies().forEach(hobby -> {
+                int hobbyKey = hobbiesDAO.addHobby(hobby);
+                if(hobbyKey != -1) {
+                    hobbiesDAO.connectUserHobbies(key, hobbyKey);
+                }
+            });
+
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        User tmp1 = new User();
+        tmp1.setUsername("kanyJoz");
+        tmp1.setEmail("mindegy");
+        tmp1.setPassword("pwd");
+        tmp1.setAge(44);
+        tmp1.setSex("male");
+        tmp1.setHobbies(FXCollections.observableArrayList("bicaj", "futas"));
+
+        instance.addUser(tmp1);
     }
 }
 
