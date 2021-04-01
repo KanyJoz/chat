@@ -18,6 +18,7 @@
     <modules>
         <module>chat-core</module>
         <module>chat-desktop</module>
+        <module>chat-web</module>
     </modules>
 
 
