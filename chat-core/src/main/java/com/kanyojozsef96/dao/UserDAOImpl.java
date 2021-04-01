@@ -37,6 +37,11 @@ public class UserDAOImpl implements UserDAO {
 
     private UserDAOImpl() {
         this.connectionUrl = PropertiesUtil.getUtilPropValue("db.url");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static UserDAOImpl getInstance() {
@@ -156,14 +161,17 @@ public class UserDAOImpl implements UserDAO {
             stmt.setInt(4, newUser.getAge());
             stmt.setString(5, newUser.getSex());
 
+
             int affectedRows = stmt.executeUpdate();
             if(affectedRows == 0) {
                 System.out.println("Something went wrong with the insert");
                 return false;
             }
 
+
             ResultSet keys = stmt.getGeneratedKeys();
             int key;
+
             if(keys.next()){
                 key = keys.getInt(1);
             } else {
@@ -188,8 +196,8 @@ public class UserDAOImpl implements UserDAO {
 
     public static void main(String[] args) {
         User tmp1 = new User();
-        tmp1.setUsername("kanyJoz");
-        tmp1.setEmail("mindegy");
+        tmp1.setUsername("kanfffffyJoz");
+        tmp1.setEmail("ffffff");
         tmp1.setPassword("pwd");
         tmp1.setAge(44);
         tmp1.setSex("male");

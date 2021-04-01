@@ -23,6 +23,11 @@ public class RoomDAOImpl implements RoomDAO {
 
     private RoomDAOImpl() {
         this.connectionURL = PropertiesUtil.getUtilPropValue("db.url");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static RoomDAOImpl getInstance() { return instance; }

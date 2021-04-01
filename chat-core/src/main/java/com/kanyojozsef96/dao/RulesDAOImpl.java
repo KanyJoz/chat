@@ -18,6 +18,11 @@ public class RulesDAOImpl implements RulesDAO {
 
     private RulesDAOImpl() {
         this.connectionURL = PropertiesUtil.getUtilPropValue("db.url");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static RulesDAOImpl getInstance() { return instance; }

@@ -4,6 +4,6 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>ERROR</h1>
+    <h1>LOGIN</h1>
 </body>
 </html>

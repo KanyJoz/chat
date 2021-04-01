@@ -21,6 +21,11 @@ public class HobbiesDAOImpl implements HobbiesDAO {
 
     private HobbiesDAOImpl() {
         this.connectionURL = PropertiesUtil.getUtilPropValue("db.url");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static HobbiesDAOImpl getInstance() { return instance; }
