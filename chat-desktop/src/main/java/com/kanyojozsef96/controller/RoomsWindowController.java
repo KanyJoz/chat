@@ -11,15 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RoomsWindowController implements Initializable {
@@ -53,8 +51,17 @@ public class RoomsWindowController implements Initializable {
             {
                 deleteBtn.setOnAction(event -> {
                      Room current = getTableRow().getItem();
-                     roomDAO.deleteRoom(current);
-                     refreshTable();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, null, ButtonType.YES, ButtonType.NO);
+                    alert.setHeaderText("Are you sure, you want to delete this room?");
+                    alert.setTitle("Are you sure?");
+
+                    Optional<ButtonType> bty = alert.showAndWait();
+                    bty.ifPresent(buttonType -> {
+                        if(buttonType == ButtonType.YES) {
+                            roomDAO.deleteRoom(current);
+                            refreshTable();
+                        }
+                    });
                 });
 
                 rulesBtn.setOnAction(event -> {
