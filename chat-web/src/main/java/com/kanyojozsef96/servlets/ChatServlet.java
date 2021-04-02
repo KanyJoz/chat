@@ -21,7 +21,29 @@ public class ChatServlet extends HttpServlet {
         if(req.getSession().getAttribute("user") != null) {
 
             String otherUID = req.getParameter("otherUserId");
+            req.getSession().setAttribute("otherUserId", otherUID);
             List<String> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
+            req.getSession().setAttribute("messages", messages);
+            url = "/chat.jsp";
+        }
+
+        resp.sendRedirect(req.getContextPath() + url);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String url = "/error.jsp";
+        if(req.getSession().getAttribute("user") != null) {
+
+            String otherUID = (String) req.getSession().getAttribute("otherUserId");
+
+            userDao.addMessage(((User)req.getSession().getAttribute("user")).getId(),
+                    Integer.parseInt(otherUID), req.getParameter("message"));
+            userDao.addMessage(Integer.parseInt(otherUID), ((User)req.getSession().getAttribute("user")).getId(),
+                       req.getParameter("message"));
+
+            List<String> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
+
             req.getSession().setAttribute("messages", messages);
             url = "/chat.jsp";
         }

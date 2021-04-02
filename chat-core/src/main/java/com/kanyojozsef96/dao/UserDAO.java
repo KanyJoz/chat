@@ -12,4 +12,5 @@ public interface UserDAO {
     boolean addUser(User newUser);
     User findUserByNameAndPwd(String name, String pwd);
     List<String> listMessages(int loginUID, int otherUID);
+    boolean addMessage(int loginUID, int otherUID, String message);
 }

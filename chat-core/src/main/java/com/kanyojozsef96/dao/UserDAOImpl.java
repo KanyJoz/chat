@@ -24,6 +24,8 @@ public class UserDAOImpl implements UserDAO {
     private static final String LIST_MESSAGES = "SELECT message FROM users_conversations" +
             " WHERE loginUserId = ? AND otherUserId = ?" +
             " ORDER BY conversationId ASC";
+    private static final String ADD_MESSAGE = "INSERT INTO users_conversations(loginUserId, otherUserId, message)" +
+            " VALUES(?, ?, ?)";
 
 
     private static final UserDAOImpl instance = new UserDAOImpl();
@@ -243,6 +245,31 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return result;
+    }
+
+
+    @Override
+    public boolean addMessage(int loginUID, int otherUID, String message) {
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(ADD_MESSAGE)) {
+
+            stmt.setInt(1, loginUID);
+            stmt.setInt(2, otherUID);
+            stmt.setString(3, message);
+
+
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows == 0) {
+                System.out.println("Something went wrong with the insert");
+                return false;
+            }
+
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {

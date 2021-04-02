@@ -25,6 +25,14 @@
         </tr>
     </c:forEach>
     </tbody>
+
+    <form action="chat-servlet" method="post">
+        <div class="mb-3">
+            <label for="message" class="form-label">Send Message</label>
+            <input type="text" class="form-control" id="message" name="message" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </table>
 </body>
 </html>
