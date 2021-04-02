@@ -30,6 +30,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if(!password.equals(passwordAgain)){
             url = "/error.jsp";
+            req.getSession().setAttribute("error", "The two passwords don't match");
         } else {
             User user = new User();
             user.setUsername(username);
@@ -45,6 +46,7 @@ public class RegistrationServlet extends HttpServlet {
                 req.getSession().setAttribute("user", user);
             } else {
                 url = "/error.jsp";
+                req.getSession().setAttribute("error", "This user already exists, try another username and/or email address");
             }
         }
 

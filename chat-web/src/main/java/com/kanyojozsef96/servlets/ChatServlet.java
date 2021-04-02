@@ -25,6 +25,8 @@ public class ChatServlet extends HttpServlet {
             List<String> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
             req.getSession().setAttribute("messages", messages);
             url = "/chat.jsp";
+        } else {
+            req.getSession().setAttribute("error", "You have to be logged in in order to chat with others");
         }
 
         resp.sendRedirect(req.getContextPath() + url);
@@ -46,6 +48,8 @@ public class ChatServlet extends HttpServlet {
 
             req.getSession().setAttribute("messages", messages);
             url = "/chat.jsp";
+        } else {
+            req.getSession().setAttribute("error", "You have to be logged in in order to chat with others");
         }
 
         resp.sendRedirect(req.getContextPath() + url);

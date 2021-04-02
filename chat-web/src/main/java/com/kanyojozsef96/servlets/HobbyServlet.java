@@ -24,6 +24,8 @@ public class HobbyServlet extends HttpServlet {
             List<User> users = userDao.findUserByHobbies(hobby);
             req.getSession().setAttribute("users", users);
             url = "/userList.jsp";
+        } else {
+            req.getSession().setAttribute("error", "You have to be logged in in order to search for users");
         }
 
         resp.sendRedirect(req.getContextPath() + url);

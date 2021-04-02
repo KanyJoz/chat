@@ -30,6 +30,7 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("user", user);
         } else {
             url = "/error.jsp";
+            req.getSession().setAttribute("error", "You have to register yourself in in order to log in");
         }
 
 

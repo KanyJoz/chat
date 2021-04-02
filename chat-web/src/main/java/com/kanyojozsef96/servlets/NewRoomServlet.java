@@ -32,11 +32,18 @@ public class NewRoomServlet extends HttpServlet {
         room.setRules(FXCollections.observableArrayList(rules.split("\n")));
 
 
-        if(roomDao.addRoom(room)) {
-            url = "/index.jsp";
+        if(req.getSession().getAttribute("user") != null) {
+            if(roomDao.addRoom(room)) {
+                url = "/index.jsp";
+            } else {
+                url = "/error.jsp";
+                req.getSession().setAttribute("error", "This room already exists, try another name");
+            }
         } else {
             url = "/error.jsp";
+            req.getSession().setAttribute("error", "You have to be logged in in order to create rooms");
         }
+
 
         resp.sendRedirect(req.getContextPath() + url);
     }

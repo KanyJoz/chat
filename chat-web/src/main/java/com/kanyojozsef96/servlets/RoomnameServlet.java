@@ -25,6 +25,8 @@ public class RoomnameServlet extends HttpServlet {
             List<Room> rooms = roomDAO.findRoomsByName(roomname);
             req.getSession().setAttribute("rooms", rooms);
             url = "/roomList.jsp";
+        } else {
+            req.getSession().setAttribute("error", "You have to be logged in in order to search for rooms");
         }
 
         resp.sendRedirect(req.getContextPath() + url);
@@ -41,6 +43,8 @@ public class RoomnameServlet extends HttpServlet {
             List<User> users = roomDAO.findAllUsersForRoom(r);
             req.getSession().setAttribute("users", users);
             url = "/userList.jsp";
+        } else {
+            req.getSession().setAttribute("error", "You have to be logged in in order to list users");
         }
 
         resp.sendRedirect(req.getContextPath() + url);
