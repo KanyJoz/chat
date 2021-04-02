@@ -12,7 +12,7 @@ public class UserDAOImpl implements UserDAO {
     private static final String SELECT_ALL_USERS = "SELECT * FROM users";
     private static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
     private static final String SELECT_USERS_BY_NAME = "SELECT * FROM users WHERE username LIKE ?";
-    private static final String SELECT_USERS_BY_HOBBY = "SELECT users.username, users.email FROM users, hobbies, users_hobbies" +
+    private static final String SELECT_USERS_BY_HOBBY = "SELECT users.id, users.username, users.email FROM users, hobbies, users_hobbies" +
             " WHERE users.id = users_hobbies.userId" +
             " AND hobbies.id = users_hobbies.hobbyId" +
             " AND hobbies.id IN" +
@@ -21,6 +21,9 @@ public class UserDAOImpl implements UserDAO {
     private static final String ADD_USER = "INSERT INTO users(username, password, email, age, sex)" +
             " VALUES (?, ?, ?, ?, ?)";
     private static final String FIND_USER = "SELECT * FROM users WHERE username = ? AND password = ?";
+    private static final String LIST_MESSAGES = "SELECT message FROM users_conversations" +
+            " WHERE loginUserId = ? AND otherUserId = ?" +
+            " ORDER BY conversationId ASC";
 
 
     private static final UserDAOImpl instance = new UserDAOImpl();
@@ -97,10 +100,10 @@ public class UserDAOImpl implements UserDAO {
 
             while(rs.next()) {
                 User user = new User();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 result.add(user);
-                // TODO: if more data is needed for the web then fill it
             }
 
         } catch (SQLException throwables) {
@@ -125,11 +128,10 @@ public class UserDAOImpl implements UserDAO {
 
             while(rs.next()) {
                 User user = new User();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 result.add(user);
-                // TODO: if more data is needed for the web then fill it
-                // TODO: ALSO this only queries user name and email
             }
 
         } catch (SQLException throwables) {
@@ -217,8 +219,34 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    public static void main(String[] args) {
 
+    @Override
+    public List<String> listMessages(int loginUID, int otherUID) {
+        List<String> result = new ArrayList<>();
+
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(LIST_MESSAGES)) {
+
+
+            stmt.setInt(1, loginUID);
+            stmt.setInt(2, otherUID);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String m = rs.getString("message");
+                result.add(m);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(instance.listMessages(9, 1));
     }
 }
 

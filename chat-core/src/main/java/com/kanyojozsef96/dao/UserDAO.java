@@ -11,4 +11,5 @@ public interface UserDAO {
     List<User> findUserByHobbies(String hobby);
     boolean addUser(User newUser);
     User findUserByNameAndPwd(String name, String pwd);
+    List<String> listMessages(int loginUID, int otherUID);
 }

@@ -95,8 +95,6 @@ public class RoomDAOImpl implements RoomDAO {
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 result.add(user);
-                // TODO: if more data is needed for the web then fill it
-                // TODO: Only username, email are querried
             }
 
         } catch (SQLException throwables) {
@@ -124,7 +122,6 @@ public class RoomDAOImpl implements RoomDAO {
                 room.setId(rs.getInt("id"));
                 room.setName(rs.getString("name"));
                 result.add(room);
-                // TODO: if more data is needed for the web then fill it
             }
 
         } catch (SQLException throwables) {

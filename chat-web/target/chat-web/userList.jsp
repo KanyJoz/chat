@@ -24,7 +24,7 @@
             <tr>
                 <td>${item.username}</td>
                 <td>${item.email}</td>
-                <td><a href="#">Chat</a></td>
+                <td><a href="chat-servlet?otherUserId=${item.id}">Chat</a></td>
             </tr>
         </c:forEach>
         </tbody>
