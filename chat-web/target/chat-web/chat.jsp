@@ -30,6 +30,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Message</th>
+                <th scope="col">Sender</th>
             </tr>
             </thead>
             <tbody>
@@ -37,7 +38,8 @@
             <c:forEach var="item" items="${sessionScope.messages}">
                 <tr>
                     <th scope="row">${sessionScope.counter}</th>
-                    <td>${item}</td>
+                    <td>${item.message}</td>
+                    <td>${item.sender}</td>
                 </tr>
                 <c:set var="counter" scope="session" value="${sessionScope.counter + 1}"/>
             </c:forEach>

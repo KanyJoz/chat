@@ -1,6 +1,7 @@
 package com.kanyojozsef96.servlets;
 
 import com.kanyojozsef96.dao.UserDAOImpl;
+import com.kanyojozsef96.model.Conversation;
 import com.kanyojozsef96.model.User;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ public class ChatServlet extends HttpServlet {
 
             String otherUID = req.getParameter("otherUserId");
             req.getSession().setAttribute("otherUserId", otherUID);
-            List<String> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
+            List<Conversation> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
             req.getSession().setAttribute("messages", messages);
             url = "/chat.jsp";
         } else {
@@ -40,11 +41,11 @@ public class ChatServlet extends HttpServlet {
             String otherUID = (String) req.getSession().getAttribute("otherUserId");
 
             userDao.addMessage(((User)req.getSession().getAttribute("user")).getId(),
-                    Integer.parseInt(otherUID), req.getParameter("message"));
+                    Integer.parseInt(otherUID), req.getParameter("message"), true);
             userDao.addMessage(Integer.parseInt(otherUID), ((User)req.getSession().getAttribute("user")).getId(),
-                       req.getParameter("message"));
+                       req.getParameter("message"), false);
 
-            List<String> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
+            List<Conversation> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
 
             req.getSession().setAttribute("messages", messages);
             url = "/chat.jsp";

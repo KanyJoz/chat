@@ -1,6 +1,7 @@
 package com.kanyojozsef96.dao;
 
 import com.kanyojozsef96.config.PropertiesUtil;
+import com.kanyojozsef96.model.Conversation;
 import com.kanyojozsef96.model.User;
 import javafx.collections.FXCollections;
 
@@ -21,11 +22,13 @@ public class UserDAOImpl implements UserDAO {
     private static final String ADD_USER = "INSERT INTO users(username, password, email, age, sex)" +
             " VALUES (?, ?, ?, ?, ?)";
     private static final String FIND_USER = "SELECT * FROM users WHERE username = ? AND password = ?";
-    private static final String LIST_MESSAGES = "SELECT message FROM users_conversations" +
+    private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
+    private static final String LIST_MESSAGES = "SELECT * FROM (SELECT * FROM users_conversations" +
             " WHERE loginUserId = ? AND otherUserId = ?" +
+            " ORDER BY conversationId DESC LIMIT 10)" +
             " ORDER BY conversationId ASC";
-    private static final String ADD_MESSAGE = "INSERT INTO users_conversations(loginUserId, otherUserId, message)" +
-            " VALUES(?, ?, ?)";
+    private static final String ADD_MESSAGE = "INSERT INTO users_conversations(loginUserId, otherUserId, message, sender)" +
+            " VALUES(?, ?, ?, ?)";
 
 
     private static final UserDAOImpl instance = new UserDAOImpl();
@@ -223,8 +226,37 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public List<String> listMessages(int loginUID, int otherUID) {
-        List<String> result = new ArrayList<>();
+    public User findUserById(int UID) {
+        try(Connection c = DriverManager.getConnection(connectionUrl);
+            PreparedStatement stmt = c.prepareStatement(FIND_USER_BY_ID)) {
+
+            stmt.setInt(1, UID);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                User user1 = new User();
+                user1.setId(rs.getInt("id"));
+                user1.setUsername(rs.getString("username"));
+                user1.setPassword(rs.getString("password"));
+                user1.setEmail(rs.getString("email"));
+                user1.setAge(rs.getInt("age"));
+                user1.setSex(rs.getString("sex"));
+                return user1;
+            } else {
+                System.out.println("Someting went wrong finding the user");
+                return null;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+
+    @Override
+    public List<Conversation> listMessages(int loginUID, int otherUID) {
+        List<Conversation> result = new ArrayList<>();
 
         try(Connection c = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = c.prepareStatement(LIST_MESSAGES)) {
@@ -235,8 +267,13 @@ public class UserDAOImpl implements UserDAO {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String m = rs.getString("message");
-                result.add(m);
+                Conversation convo = new Conversation();
+                convo.setConversationId(rs.getInt("conversationId"));
+                convo.setLoginUserId(rs.getInt("loginUserId"));
+                convo.setOtherUserId(rs.getInt("otherUserId"));
+                convo.setMessage(rs.getString("message"));
+                convo.setSender(rs.getString("sender"));
+                result.add(convo);
             }
 
         } catch (SQLException throwables) {
@@ -249,13 +286,21 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public boolean addMessage(int loginUID, int otherUID, String message) {
+    public boolean addMessage(int loginUID, int otherUID, String message, boolean first) {
         try(Connection c = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = c.prepareStatement(ADD_MESSAGE)) {
 
             stmt.setInt(1, loginUID);
             stmt.setInt(2, otherUID);
             stmt.setString(3, message);
+
+            User tmp;
+            if(first) {
+                tmp = findUserById(loginUID);
+            } else {
+                tmp = findUserById(otherUID);
+            }
+            stmt.setString(4, tmp.getUsername());
 
 
             int affectedRows = stmt.executeUpdate();
