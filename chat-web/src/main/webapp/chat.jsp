@@ -56,6 +56,11 @@
         <form action="refresh-servlet" method="get">
             <button type="submit" class="btn btn-primary">Refresh</button>
         </form>
+        <form action="refresh-servlet" enctype = "multipart/form-data" method="post">
+            <label for="img">Select image:</label>
+            <input type="file" id="img" name="img" accept="image/*">
+            <button type="submit" class="btn btn-primary">Send Image</button>
+        </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
 </html>
