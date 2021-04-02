@@ -38,7 +38,7 @@ public class RegistrationServlet extends HttpServlet {
             user.setEmail(email);
             user.setAge(age);
             user.setSex(sex);
-            user.setHobbies(FXCollections.observableArrayList(hobbies.split("\n")));
+            user.setHobbies(FXCollections.observableArrayList(hobbies.split(System.lineSeparator())));
 
 
             if(userDAO.addUser(user)) {

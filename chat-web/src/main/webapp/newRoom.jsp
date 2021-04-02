@@ -38,13 +38,13 @@
             </div>
             <div class="mb-3">
                 <select class="form-select" name="roomtype">
-                    <option value="1">Friends</option>
-                    <option value="2">Work</option>
-                    <option value="3">Sport</option>
-                    <option value="4">Love</option>
-                    <option value="5">Education</option>
-                    <option value="6">Health</option>
-                    <option value="7">Politics</option>
+                    <option value="0">Friends</option>
+                    <option value="1">Work</option>
+                    <option value="2">Sport</option>
+                    <option value="3">Love</option>
+                    <option value="4">Education</option>
+                    <option value="5">Health</option>
+                    <option value="6">Politics</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

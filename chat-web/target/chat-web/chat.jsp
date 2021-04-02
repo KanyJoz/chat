@@ -25,13 +25,12 @@
         </li>
     </ul>
 
-    <div class="container">
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Message</th>
                 <th scope="col">Sender</th>
+                <th scope="col">Message</th>
             </tr>
             </thead>
             <tbody>
@@ -39,8 +38,8 @@
             <c:forEach var="item" items="${sessionScope.messages}">
                 <tr>
                     <th scope="row">${sessionScope.counter}</th>
-                    <td>${item.message}</td>
                     <td>${item.sender}</td>
+                    <td>${item.message}</td>
                 </tr>
                 <c:set var="counter" scope="session" value="${sessionScope.counter + 1}"/>
             </c:forEach>
@@ -62,8 +61,6 @@
             <input type="file" id="img" name="img" accept="image/*">
             <button type="submit" class="btn btn-primary">Send Image</button>
         </form>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -28,12 +28,16 @@ public class NewRoomServlet extends HttpServlet {
 
         Room room = new Room();
         room.setName(name);
-        room.setRoomType(Room.RoomType.values()[roomType-1]);
-        room.setRules(FXCollections.observableArrayList(rules.split("\n")));
+        room.setRoomType(Room.RoomType.values()[roomType]);
+        room.setRules(FXCollections.observableArrayList(rules.split(System.lineSeparator())));
 
 
         if(req.getSession().getAttribute("user") != null) {
-            if(roomDao.addRoom(room)) {
+            int key = roomDao.addRoom(room);
+            room.setId(key);
+            if(key != -1) {
+                User u = (User) req.getSession().getAttribute("user");
+                roomDao.populateRoom(room.getId(), u.getId());
                 url = "/index.jsp";
             } else {
                 url = "/error.jsp";

@@ -46,7 +46,7 @@ public class RoomDAOImpl implements RoomDAO {
                 Room room = new Room();
                 room.setId(results.getInt("id"));
                 room.setName(results.getString("name"));
-                Room.RoomType roomType = Room.RoomType.values()[results.getInt("roomType") - 1];
+                Room.RoomType roomType = Room.RoomType.values()[results.getInt("roomType")];
                 room.setRoomType(roomType);
                 allRooms.add(room);
             }
@@ -142,7 +142,7 @@ public class RoomDAOImpl implements RoomDAO {
 
 
     @Override
-    public boolean addRoom(Room roomToAdd) {
+    public int addRoom(Room roomToAdd) {
         try(Connection c = DriverManager.getConnection(connectionURL);
             PreparedStatement stmt = c.prepareStatement(ADD_ROOM, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -153,7 +153,7 @@ public class RoomDAOImpl implements RoomDAO {
             int affectedRows = stmt.executeUpdate();
             if(affectedRows == 0) {
                 System.out.println("Something went wrong with the insert");
-                return false;
+                return -1;
             }
 
 
@@ -164,7 +164,7 @@ public class RoomDAOImpl implements RoomDAO {
                 key = keys.getInt(1);
             } else {
                 System.out.println("Shouldn't reach this");
-                return false;
+                return -1;
             }
 
             roomToAdd.getRules().forEach(rule -> {
@@ -174,11 +174,11 @@ public class RoomDAOImpl implements RoomDAO {
                 }
             });
 
-            return true;
+            return key;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            return -1;
         }
     }
 
@@ -201,7 +201,6 @@ public class RoomDAOImpl implements RoomDAO {
             return true;
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
             return false;
         }
     }
