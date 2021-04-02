@@ -22,10 +22,16 @@ public class ChatServlet extends HttpServlet {
         if(req.getSession().getAttribute("user") != null) {
 
             String otherUID = req.getParameter("otherUserId");
-            req.getSession().setAttribute("otherUserId", otherUID);
-            List<Conversation> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
-            req.getSession().setAttribute("messages", messages);
-            url = "/chat.jsp";
+            System.out.println(otherUID);
+
+            if(((User)req.getSession().getAttribute("user")).getId() == Integer.parseInt(otherUID)) {
+                req.getSession().setAttribute("error", "You can't have a conversation with yourself");
+            } else {
+                req.getSession().setAttribute("otherUserId", otherUID);
+                List<Conversation> messages = userDao.listMessages(((User)req.getSession().getAttribute("user")).getId(), Integer.parseInt(otherUID));
+                req.getSession().setAttribute("messages", messages);
+                url = "/chat.jsp";
+            }
         } else {
             req.getSession().setAttribute("error", "You have to be logged in in order to chat with others");
         }

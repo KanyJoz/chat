@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,18 +12,30 @@
 </head>
 <body>
     <ul class="nav nav-pills justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.jsp">Main Page</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="registration.jsp">Registration</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="newRoom.jsp">Create Room</a>
-        </li>
+        <c:choose>
+            <c:when test="${sessionScope.user != null}">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="newRoom.jsp">Create Room</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="logout-servlet">Logout</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration.jsp">Registration</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 
     <div class="container">
@@ -29,42 +43,42 @@
 
         <form action="username-servlet" method="post">
             <div class="mb-3">
-                <label for="username" class="form-label">Search User by username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <label for="username" class="form-label">Search Users by username</label>
+                <input maxlength="100" type="text" class="form-control" id="username" name="username" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
         <form action="hobby-servlet" method="post">
             <div class="mb-3">
-                <label for="hobby" class="form-label">Search User by hobby</label>
-                <input type="text" class="form-control" id="hobby" name="hobby" required>
+                <label for="hobby" class="form-label">Search Users by hobby</label>
+                <input maxlength="100" type="text" class="form-control" id="hobby" name="hobby" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
         <form action="roomname-servlet" method="post">
             <div class="mb-3">
-                <label for="roomname" class="form-label">Search room by name</label>
-                <input type="text" class="form-control" id="roomname" name="roomname" required>
+                <label for="roomname" class="form-label">Search Rooms by name</label>
+                <input maxlength="100" type="text" class="form-control" id="roomname" name="roomname" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
         <form action="roomtype-servlet" method="post">
             <div class="mb-3">
-                <label for="roomtype" class="form-label">Search room by type</label>
-                <select class="form-select" name="roomtype" id="roomtype">
-                    <option value="1">Friends</option>
-                    <option value="2">Work</option>
-                    <option value="3">Sport</option>
-                    <option value="4">Love</option>
-                    <option value="5">Education</option>
-                    <option value="6">Health</option>
-                    <option value="7">Politics</option>
+                <label for="roomtype" class="form-label">Search Rooms by type</label>
+                <select class="form-select" name="roomtype" id="roomtype" required>
+                    <option value="0">Friends</option>
+                    <option value="1">Work</option>
+                    <option value="2">Sport</option>
+                    <option value="3">Love</option>
+                    <option value="4">Education</option>
+                    <option value="5">Health</option>
+                    <option value="6">Politics</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
 

@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +13,30 @@
 <body>
 
     <ul class="nav nav-pills justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="registration.jsp">Registration</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="newRoom.jsp">Create Room</a>
-        </li>
+        <c:choose>
+            <c:when test="${sessionScope.user != null}">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="newRoom.jsp">Create Room</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="logout-servlet">Logout</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration.jsp">Registration</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 
     <div class="container">
@@ -30,14 +44,14 @@
         <form action="newroom-servlet" method="post">
             <div class="mb-3">
                 <label for="roomname" class="form-label">Name of the Room</label>
-                <input type="text" class="form-control" id="roomname" name="roomname" required>
+                <input maxlength="64" minlength="8" type="text" class="form-control" id="roomname" name="roomname" required>
             </div>
             <div class="mb-3">
                 <label for="rules" class="form-label">Rules separated with new lines</label>
                 <textarea class="form-control" id="rules" name="rules" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <select class="form-select" name="roomtype">
+                <select required class="form-select" name="roomtype">
                     <option value="0">Friends</option>
                     <option value="1">Work</option>
                     <option value="2">Sport</option>
@@ -47,7 +61,7 @@
                     <option value="6">Politics</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Create Room</button>
         </form>
     </div>
 

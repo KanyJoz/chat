@@ -22,7 +22,7 @@ public class RoomTypeServlet extends HttpServlet {
         if(req.getSession().getAttribute("user") != null) {
 
             int roomtype = Integer.parseInt(req.getParameter("roomtype"));
-            List<Room> rooms = roomDAO.findRoomsByType(Room.RoomType.values()[roomtype -1].getValue());
+            List<Room> rooms = roomDAO.findRoomsByType(Room.RoomType.values()[roomtype].getValue());
             req.getSession().setAttribute("rooms", rooms);
             url = "/roomList.jsp";
         } else {

@@ -10,7 +10,7 @@ public class PropertiesUtil {
         try {
             props.load(PropertiesUtil.class.getResourceAsStream("/application.properties"));
         } catch (IOException ex) {
-            System.out.println("Couldn't find the properties file to load, printing stacktrace...");
+            System.out.println("Couldn't find the properties file to load!");
             ex.printStackTrace();
         }
     }

@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,18 +13,30 @@
 <body>
 
     <ul class="nav nav-pills justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="registration.jsp">Registration</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="newRoom.jsp">Create Room</a>
-        </li>
+        <c:choose>
+            <c:when test="${sessionScope.user != null}">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="newRoom.jsp">Create Room</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="logout-servlet">Logout</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="registration.jsp">Registration</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
     </ul>
 
     <div class="container">
@@ -30,15 +44,17 @@
         <form action="registration-servlet" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <input maxlength="64" minlength="8" type="text" class="form-control" id="username" name="username" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelp" minlength="8" type="password" class="form-control" id="password" name="password" required>
+                <div id="passwordHelp" class="form-text">Must contain lowercase letter, uppercase letter and number</div>
             </div>
             <div class="mb-3">
                 <label for="passwordAgain" class="form-label">Password Again</label>
-                <input type="password" class="form-control" id="passwordAgain" name="passwordAgain" required>
+                <input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" aria-describedby="passwordHelpA" minlength="8" type="password" class="form-control" id="passwordAgain" name="passwordAgain" required>
+                <div id="passwordHelpA" class="form-text">Must contain lowercase letter, uppercase letter and number</div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
@@ -64,7 +80,7 @@
                 <label for="hobbies" class="form-label">Hobbies separated with new lines</label>
                 <textarea class="form-control" id="hobbies" name="hobbies" rows="3" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 

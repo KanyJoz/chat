@@ -11,18 +11,30 @@
 </head>
 <body>
 <ul class="nav nav-pills justify-content-end">
-    <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="registration.jsp">Registration</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="newRoom.jsp">Create Room</a>
-    </li>
+    <c:choose>
+        <c:when test="${sessionScope.user != null}">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="newRoom.jsp">Create Room</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="logout-servlet">Logout</a>
+            </li>
+        </c:when>
+        <c:otherwise>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="login.jsp">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="registration.jsp">Registration</a>
+            </li>
+        </c:otherwise>
+    </c:choose>
 </ul>
 
 <table class="table">
@@ -40,8 +52,8 @@
         <tr>
             <th scope="row">${sessionScope.counter}</th>
             <td>${item.name}</td>
-            <td><a href="roomname-servlet?roomId=${item.id}">People of Room</a></td>
-            <td><a href="roomtype-servlet?roomId=${item.id}">Join</a></td>
+            <td><a class="btn btn-primary" href="roomname-servlet?roomId=${item.id}">People of Room</a></td>
+            <td><a class="btn btn-primary" href="roomtype-servlet?roomId=${item.id}">Join Room</a></td>
         </tr>
         <c:set var="counter" scope="session" value="${sessionScope.counter + 1}"/>
     </c:forEach>

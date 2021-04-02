@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_ROOMS = "SELECT * FROM rooms";
     private static final String DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
-    private static final String SELECT_ALL_USERS_FOR_ROOM = "SELECT username, email FROM users, rooms_users" +
+    private static final String SELECT_ALL_USERS_FOR_ROOM = "SELECT id, username, email FROM users, rooms_users" +
             " WHERE users.id = rooms_users.userId" +
             " And rooms_users.roomId = ?";
     private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
@@ -50,7 +50,6 @@ public class RoomDAOImpl implements RoomDAO {
                 room.setRoomType(roomType);
                 allRooms.add(room);
             }
-
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -92,6 +91,7 @@ public class RoomDAOImpl implements RoomDAO {
 
             while(rs.next()) {
                 User user = new User();
+                user.setId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
                 result.add(user);
