@@ -1,5 +1,6 @@
 package com.kanyojozsef96.dao;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.kanyojozsef96.config.PropertiesUtil;
 import com.kanyojozsef96.model.Conversation;
 import com.kanyojozsef96.model.User;
@@ -21,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
             " WHERE name LIKE ?)";
     private static final String ADD_USER = "INSERT INTO users(username, password, email, age, sex)" +
             " VALUES (?, ?, ?, ?, ?)";
-    private static final String FIND_USER = "SELECT * FROM users WHERE username = ? AND password = ?";
+    private static final String FIND_USER = "SELECT * FROM users WHERE username = ?";
     private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE id = ?";
     private static final String LIST_MESSAGES = "SELECT * FROM (SELECT * FROM users_conversations" +
             " WHERE loginUserId = ? AND otherUserId = ?" +
@@ -154,6 +155,9 @@ public class UserDAOImpl implements UserDAO {
         try(Connection c = DriverManager.getConnection(connectionUrl);
             PreparedStatement stmt = c.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
 
+            String newPwd = BCrypt.withDefaults().hashToString(12, newUser.getPassword().toCharArray());
+            newUser.setPassword(newPwd);
+
             stmt.setString(1, newUser.getUsername());
             stmt.setString(2, newUser.getPassword());
             stmt.setString(3, newUser.getEmail());
@@ -201,18 +205,22 @@ public class UserDAOImpl implements UserDAO {
             PreparedStatement stmt = c.prepareStatement(FIND_USER)) {
 
             stmt.setString(1, n);
-            stmt.setString(2, pwd);
 
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
-                User user1 = new User();
-                user1.setId(rs.getInt("id"));
-                user1.setUsername(rs.getString("username"));
-                user1.setPassword(rs.getString("password"));
-                user1.setEmail(rs.getString("email"));
-                user1.setAge(rs.getInt("age"));
-                user1.setSex(rs.getString("sex"));
-                return user1;
+                String dbPass = rs.getString("password");
+                BCrypt.Result result = BCrypt.verifyer().verify(pwd.toCharArray(), dbPass);
+
+                if(result.verified) {
+                    User user1 = new User();
+                    user1.setId(rs.getInt("id"));
+                    user1.setUsername(rs.getString("username"));
+                    user1.setPassword(rs.getString("password"));
+                    user1.setEmail(rs.getString("email"));
+                    user1.setAge(rs.getInt("age"));
+                    user1.setSex(rs.getString("sex"));
+                    return user1;
+                }
             } else {
                 System.out.println("Someting went wrong finding the user");
                 return null;
@@ -222,6 +230,7 @@ public class UserDAOImpl implements UserDAO {
             throwables.printStackTrace();
             return null;
         }
+        return null;
     }
 
 
