@@ -19,6 +19,8 @@ public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
     private static final String ADD_ROOM = "INSERT INTO rooms(name, roomType, userId) VALUES (?, ?, ?)";
     private static final String POPULATE_ROOM = "INSERT INTO rooms_users(roomId, userId) VALUES (?, ?)";
+    private static final String DELETE_CONNECTION = "DELETE FROM rooms_users WHERE" +
+            " roomId = ? AND userId = ?";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
     private String connectionURL;
@@ -252,6 +254,24 @@ public class RoomDAOImpl implements RoomDAO {
 
         } catch (SQLException throwables) {
             return false;
+        }
+    }
+
+    @Override
+    public void deleteConnection(int rId, int Uid) {
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(DELETE_CONNECTION)) {
+
+            stmt.setInt(1, rId);
+            stmt.setInt(2, Uid);
+            int affectedRows = stmt.executeUpdate();
+
+            if(affectedRows != 1){
+                System.out.println("There are some problems with the user id-s!");
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't delete the user from the database");
         }
     }
 

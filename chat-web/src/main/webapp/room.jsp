@@ -43,7 +43,7 @@
 </ul>
 
 <div class="container">
-    <p class="h1">Chat Application Room Creation</p>
+    <p class="h1">Room Data</p>
     <form action="newroom-servlet" method="post">
         <div class="mb-3">
             <label for="roomname" class="form-label">Name of the Room</label>

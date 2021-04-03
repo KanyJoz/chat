@@ -48,6 +48,7 @@
         <th scope="col">List Option</th>
         <th scope="col">Join Option</th>
         <th scope="col">View Option</th>
+        <th scope="col">Quit Option</th>
         <th scope="col">Delete Option</th>
     </tr>
     </thead>
@@ -60,6 +61,7 @@
             <td><a class="btn btn-primary" href="roomname-servlet?roomId=${item.id}">People of Room</a></td>
             <td><a class="btn btn-primary" href="roomtype-servlet?roomId=${item.id}">Join Room</a></td>
             <td><a class="btn btn-primary" href="room-servlet?roomId=${item.id}">View Room</a></td>
+            <td><a class="btn btn-warning" href="quitroom-servlet?roomId=${item.id}">Quit Room</a></td>
             <td><a class="btn btn-danger" href="newroom-servlet?roomId=${item.id}">Delete Room</a></td>
         </tr>
         <c:set var="counter" scope="session" value="${sessionScope.counter + 1}"/>

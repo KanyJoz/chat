@@ -1,4 +1,6 @@
+com\kanyojozsef96\dao\RoomDAO.class
 com\kanyojozsef96\dao\UserDAO.class
+com\kanyojozsef96\dao\RoomDAOImpl.class
 com\kanyojozsef96\model\Room.class
 com\kanyojozsef96\dao\RulesDAOImpl.class
 com\kanyojozsef96\config\PropertiesUtil.class

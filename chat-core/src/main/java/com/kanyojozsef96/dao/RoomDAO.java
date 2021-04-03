@@ -15,4 +15,5 @@ public interface RoomDAO {
     List<Room> findRoomsByType(String roomType);
     int addRoom(Room roomToAdd, User user);
     boolean populateRoom(int rId, int uId);
+    void deleteConnection(int rId, int Uid);
 }

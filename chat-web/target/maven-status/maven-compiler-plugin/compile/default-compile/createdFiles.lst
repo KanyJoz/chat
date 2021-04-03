@@ -1,2 +1,12 @@
-com\kanyojozsef96\servlets\ChatServlet.class
+com\kanyojozsef96\servlets\NewRoomServlet.class
+com\kanyojozsef96\servlets\LogoutServlet.class
+com\kanyojozsef96\servlets\RoomnameServlet.class
 com\kanyojozsef96\servlets\LoginServlet.class
+com\kanyojozsef96\servlets\HobbyServlet.class
+com\kanyojozsef96\servlets\UsernameServlet.class
+com\kanyojozsef96\servlets\UserServlet.class
+com\kanyojozsef96\servlets\RefreshServlet.class
+com\kanyojozsef96\servlets\ChatServlet.class
+com\kanyojozsef96\servlets\RoomTypeServlet.class
+com\kanyojozsef96\servlets\RoomServlet.class
+com\kanyojozsef96\servlets\RegistrationServlet.class

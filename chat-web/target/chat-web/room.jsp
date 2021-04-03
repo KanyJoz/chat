@@ -43,18 +43,18 @@
 </ul>
 
 <div class="container">
-    <p class="h1">Chat Application Room Creation</p>
+    <p class="h1">Room Data</p>
     <form action="newroom-servlet" method="post">
         <div class="mb-3">
             <label for="roomname" class="form-label">Name of the Room</label>
-            <input value="${sessionScope.room.name}" maxlength="64" minlength="8" type="text" class="form-control" id="roomname" name="roomname" required>
+            <input disabled value="${sessionScope.room.name}" maxlength="64" minlength="8" type="text" class="form-control" id="roomname" name="roomname" required>
         </div>
         <div class="mb-3">
             <label for="rules" class="form-label">Rules separated with new lines</label>
-            <textarea class="form-control" id="rules" name="rules" rows="3" required>${sessionScope.tmpRules}</textarea>
+            <textarea disabled class="form-control" id="rules" name="rules" rows="3" required>${sessionScope.tmpRules}</textarea>
         </div>
         <div class="mb-3">
-            <select required class="form-select" name="roomtype">
+            <select disabled required class="form-select" name="roomtype">
                 <c:choose>
                     <c:when test="${sessionScope.room.roomType.ordinal() == 0}">
                         <option selected value="0">Friends</option>
@@ -123,7 +123,6 @@
 
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Create Room</button>
     </form>
 </div>
 
