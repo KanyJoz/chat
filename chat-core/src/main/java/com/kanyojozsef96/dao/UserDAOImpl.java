@@ -65,7 +65,6 @@ public class UserDAOImpl implements UserDAO {
                 allUsers.add(user);
             }
 
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
@@ -219,6 +218,7 @@ public class UserDAOImpl implements UserDAO {
                     user1.setEmail(rs.getString("email"));
                     user1.setAge(rs.getInt("age"));
                     user1.setSex(rs.getString("sex"));
+                    user1.setHobbies(FXCollections.observableArrayList(hobbiesDAO.findAllHobbiesForUser(user1)));
                     return user1;
                 }
             } else {

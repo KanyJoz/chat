@@ -17,6 +17,9 @@
                 <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="user-servlet">Your Page</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="newRoom.jsp">Create Room</a>
             </li>
             <li class="nav-item">
@@ -44,6 +47,8 @@
         <th scope="col">Name</th>
         <th scope="col">List Option</th>
         <th scope="col">Join Option</th>
+        <th scope="col">View Option</th>
+        <th scope="col">Delete Option</th>
     </tr>
     </thead>
     <tbody>
@@ -54,6 +59,8 @@
             <td>${item.name}</td>
             <td><a class="btn btn-primary" href="roomname-servlet?roomId=${item.id}">People of Room</a></td>
             <td><a class="btn btn-primary" href="roomtype-servlet?roomId=${item.id}">Join Room</a></td>
+            <td><a class="btn btn-primary" href="room-servlet?roomId=${item.id}">View Room</a></td>
+            <td><a class="btn btn-danger" href="newroom-servlet?roomId=${item.id}">Delete Room</a></td>
         </tr>
         <c:set var="counter" scope="session" value="${sessionScope.counter + 1}"/>
     </c:forEach>

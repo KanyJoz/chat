@@ -32,6 +32,7 @@ public class Room {
     private IntegerProperty id = new SimpleIntegerProperty(this, "id");
     private StringProperty name = new SimpleStringProperty(this, "name");
     private ObjectProperty<RoomType> roomType = new SimpleObjectProperty<>(this, "roomType");
+    private IntegerProperty userId = new SimpleIntegerProperty(this, "userId");
     private ListProperty<String> rules = new SimpleListProperty<>(this, "rules");
     private ListProperty<User> users = new SimpleListProperty<>(this, "users");
 
@@ -54,6 +55,10 @@ public class Room {
     public ObservableList<User> getUsers() { return users.get(); }
     public ListProperty<User> usersProperty() { return users; }
     public void setUsers(ObservableList<User> users) { this.users.set(users); }
+
+    public int getUserId() { return userId.get(); }
+    public IntegerProperty userIdProperty() { return userId; }
+    public void setUserId(int userId) { this.userId.set(userId); }
 
     @Override
     public String toString() {

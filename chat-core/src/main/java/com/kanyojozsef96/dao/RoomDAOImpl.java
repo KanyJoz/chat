@@ -11,12 +11,13 @@ import java.util.stream.Collectors;
 
 public class RoomDAOImpl implements RoomDAO {
     private static final String SELECT_ALL_ROOMS = "SELECT * FROM rooms";
+    private static final String SELECT_ROOM = "SELECT * FROM rooms WHERE id = ?";
     private static final String DELETE_ROOM = "DELETE FROM rooms WHERE id = ?";
     private static final String SELECT_ALL_USERS_FOR_ROOM = "SELECT id, username, email FROM users, rooms_users" +
             " WHERE users.id = rooms_users.userId" +
             " And rooms_users.roomId = ?";
     private static final String SELECT_ROOM_BY_NAME = "SELECT * FROM rooms WHERE name LIKE ?";
-    private static final String ADD_ROOM = "INSERT INTO rooms(name, roomType) VALUES (?, ?)";
+    private static final String ADD_ROOM = "INSERT INTO rooms(name, roomType, userId) VALUES (?, ?, ?)";
     private static final String POPULATE_ROOM = "INSERT INTO rooms_users(roomId, userId) VALUES (?, ?)";
 
     private static final RoomDAOImpl instance = new RoomDAOImpl();
@@ -48,6 +49,7 @@ public class RoomDAOImpl implements RoomDAO {
                 room.setName(results.getString("name"));
                 Room.RoomType roomType = Room.RoomType.values()[results.getInt("roomType")];
                 room.setRoomType(roomType);
+                room.setUserId(results.getInt("userId"));
                 allRooms.add(room);
             }
 
@@ -76,6 +78,50 @@ public class RoomDAOImpl implements RoomDAO {
             System.out.println("Couldn't delete the user from the database");
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public void deleteRoomById(int rId) {
+        try(Connection c = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = c.prepareStatement(DELETE_ROOM)) {
+
+            stmt.setInt(1, rId);
+            int affectedRows = stmt.executeUpdate();
+
+            if(affectedRows != 1){
+                System.out.println("There are some problems with the user id-s!");
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Couldn't delete the user from the database");
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public Room findRoomById(int rId) {
+        try(Connection connection = DriverManager.getConnection(connectionURL);
+            PreparedStatement stmt = connection.prepareStatement(SELECT_ROOM)) {
+
+            stmt.setInt(1, rId);
+            ResultSet results = stmt.executeQuery();
+
+            if (results.next()){
+                Room room = new Room();
+                room.setId(results.getInt("id"));
+                room.setName(results.getString("name"));
+                Room.RoomType roomType = Room.RoomType.values()[results.getInt("roomType")];
+                room.setRoomType(roomType);
+                room.setUserId(results.getInt("userId"));
+                return room;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+        return null;
     }
 
 
@@ -121,6 +167,9 @@ public class RoomDAOImpl implements RoomDAO {
                 Room room = new Room();
                 room.setId(rs.getInt("id"));
                 room.setName(rs.getString("name"));
+                Room.RoomType roomType = Room.RoomType.values()[rs.getInt("roomType")];
+                room.setRoomType(roomType);
+                room.setUserId(rs.getInt("userId"));
                 result.add(room);
             }
 
@@ -142,12 +191,13 @@ public class RoomDAOImpl implements RoomDAO {
 
 
     @Override
-    public int addRoom(Room roomToAdd) {
+    public int addRoom(Room roomToAdd, User user) {
         try(Connection c = DriverManager.getConnection(connectionURL);
             PreparedStatement stmt = c.prepareStatement(ADD_ROOM, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, roomToAdd.getName());
             stmt.setInt(2, roomToAdd.getRoomType().ordinal());
+            stmt.setInt(3, user.getId());
 
 
             int affectedRows = stmt.executeUpdate();

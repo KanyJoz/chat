@@ -19,6 +19,9 @@
                     <a class="nav-link" aria-current="page" href="index.jsp">Main Page</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="user-servlet">Your Page</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" href="newRoom.jsp">Create Room</a>
                 </li>
                 <li class="nav-item">
