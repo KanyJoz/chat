@@ -48,6 +48,9 @@ Minden más Maven Dependency, amit le kellene töltenie a rendszernek.
 4) Fordítás/futtatáshoz szükséges lépések:
 A webes alkalamzáshoz el kell indítani a konfigurált Tomcat szervert, ami majd a Google Chrome-ban behozza a localhoston az alkalamzást.
 Az asztali alkalmazást pedig a javafx:run pluginnal kell elindítani, ahogy gyakorlaton megtanultuk.
+FONTOS továbbá, hogy a sessionScope erősen van használva a webes alkalamzásban így a teszteléshez két különböző böngészőben nyissuk emg az alkalmazást,
+majd ezt követően regisztráljunk két különöbőz felhasználót és azokon keresztül chateljünk.
+FONTOS továbbá, hogy a fényképek küldése megoldott, de a hosszú String kicsit csúnyává teszi a weboldalt, így az a végső teszt legyen.
 
 A projektet felraktam githubra folyamatos commitolás mellett, jelenleg private láthatóságú, de az értékelés előtt szívesen átállítom public-ra.
 https://github.com/KanyJoz/chat

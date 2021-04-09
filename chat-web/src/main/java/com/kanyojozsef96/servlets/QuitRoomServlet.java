@@ -2,6 +2,7 @@ package com.kanyojozsef96.servlets;
 
 import com.kanyojozsef96.dao.RoomDAO;
 import com.kanyojozsef96.dao.RoomDAOImpl;
+import com.kanyojozsef96.model.Room;
 import com.kanyojozsef96.model.User;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,15 @@ public class QuitRoomServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int roomID = Integer.parseInt(req.getParameter("roomId"));
         User user = (User) req.getSession().getAttribute("user");
-        roomDao.deleteConnection(roomID, user.getId());
+        Room room = roomDao.findRoomById(roomID);
+
+        // the creator quits
+        if(room.getUserId() == user.getId()) {
+            roomDao.deleteRoomById(roomID);
+        } else {
+            roomDao.deleteConnection(roomID, user.getId());
+        }
+
         String url = "/index.jsp";
         resp.sendRedirect(req.getContextPath() + url);
     }
